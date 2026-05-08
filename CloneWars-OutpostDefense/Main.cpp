@@ -184,6 +184,8 @@ public:
 			finalDamage /= 2;
 
 			cout << name << " is suppressed! Damage reduced.\n";
+
+			RemoveStatus(STATUS_SUPPRESSED);
 		}
 
 		cout << name << " attacks " << target.GetName() << "!\n";
@@ -268,7 +270,7 @@ public:
 
 			char GetMapSymbol() const
 			{
-				return 'c';
+				return 'C';
 			}
 		};
 
@@ -299,7 +301,7 @@ public:
 
 			char GetMapSymbol() const
 			{
-				return 'd';
+				return 'D';
 			}
 		};
 		// =========================
@@ -398,6 +400,14 @@ public:
 			cout << "Version 1 \n";
 			cout << "=================================\n";
 
+			cout << "A lone Clone Trooper stands guard at an outpost on a remote planet. Suddenly, a B1 Battle Droid appears, intent on destroying the outpost. The Clone must defend against the droid's assault and survive until reinforcements arrive.\n";
+			cout << "Move the clone using WASD keys. Choose actions each turn to defeat the droid!\n";
+			cout << "Melee attacks require being adjacent to the enemy!\n";
+			cout << "Shielding will last until the next turn.\n";
+			cout << "Suppression reduces the target's damage for one turn.\n";
+			cout << "Status effects are applied at the end of each turn, and will be displayed under each unit!\n";
+			cout << "Press Enter to begin the battle...\n";
+
 			int turn = 1;
 
 			while (clone.IsAlive() && droid.IsAlive())
@@ -414,14 +424,21 @@ public:
 				// Player Turn
 				// =========================
 				cout << "___ Clone Turn ___\n";
-				cout << "1. Attack\n";
-				cout << "2. Shield\n";
-				cout << "3. Suppress\n";
-				cout << "WASD = Move\n";
-				cout << "Choice: ";
+				cout << "WASD = Move one tile\n";
+				cout << "1. Melee Attack: range 1\n";
+				cout << "2. Shield: Halves incoming damage\n";
+				cout << "3. Suppress Fire: range 3, halves enemy damage\n";
 
-				char choice;
-				cin >> choice;
+				string input;
+				cin >> input;
+
+				if (input.length() != 1)
+				{
+					cout << "Enter one command only!\n";
+					continue;
+				}
+
+				char choice = input[0];
 
 				if (choice == '1')
 					if (GetDistance(clone, droid) <= 1)
