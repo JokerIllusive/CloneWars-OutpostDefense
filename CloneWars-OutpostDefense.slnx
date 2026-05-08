@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CloneWars-OutpostDefense/CloneWars-OutpostDefense.vcxproj" Id="c6b6c998-87da-44ff-93c2-6f5366eb47b2" />
+</Solution>
