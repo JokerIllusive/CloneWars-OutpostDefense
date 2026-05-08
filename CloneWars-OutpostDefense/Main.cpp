@@ -142,7 +142,7 @@ public:
 	// =========================
 	// Movement Functions
 	// =========================
-	void Move(int moveX, int moveY)
+	bool Move(int moveX, int moveY)
 	{
 		int newX = x + moveX;
 		int newY = y + moveY;
@@ -151,10 +151,12 @@ public:
 		{
 			x = newX;
 			y = newY;
+			return true;
 		}
 		else
 		{
 			cout << name << " cannot move outside the battlefield!\n";
+			return false;
 		}
 	}
 
@@ -432,15 +434,10 @@ public:
 				string input;
 				cin >> input;
 
-				if (input.length() != 1)
+				bool validAction = true;
+
+				if (input == "1")
 				{
-					cout << "Enter one command only!\n";
-					continue;
-				}
-
-				char choice = input[0];
-
-				if (choice == '1')
 					if (GetDistance(clone, droid) <= 1)
 					{
 						clone.Attack(droid);
@@ -448,12 +445,15 @@ public:
 					else
 					{
 						cout << "Target is out of range!\n";
+						validAction = false;
 					}
-				else if (choice == '2')
+				}
+				else if (input == "2")
 				{
 					clone.Shield();
 				}
-				else if (choice == '3')
+				else if (input == "3")
+				{
 					if (GetDistance(clone, droid) <= 3)
 					{
 						clone.SuppressedTarget(droid);
@@ -461,38 +461,29 @@ public:
 					else
 					{
 						cout << "Target is out of range!\n";
+						validAction = false;
 					}
+				}
+				else if (input == "w" || input == "W")
+				{
+					validAction = clone.Move(0, -1);
+				}
+				else if (input == "a" || input == "A")
+				{
+					validAction = clone.Move(-1, 0);
+				}
+				else if (input == "s" || input == "S")
+				{
+					validAction = clone.Move(0, 1);
+				}
+				else if (input == "d" || input == "D")
+				{
+					validAction = clone.Move(1, 0);
+				}
 				else
 				{
 					cout << "Invalid choice!\n";
-				}
-
-				if (!droid.IsAlive())
-				{
-					break;
-				}
-
-				// =========================
-				// WASD Movement
-				// =========================
-				if (choice == 'w' || choice == 'W')
-				{
-					clone.Move(0, -1);
-				}
-
-				if (choice == 'a' || choice == 'A')
-				{
-					clone.Move(-1, 0);
-				}
-
-				if (choice == 's' || choice == 'S')
-				{
-					clone.Move(0, 1);
-				}
-
-				if (choice == 'd' || choice == 'D')
-				{
-					clone.Move(1, 0);
+					validAction = false;
 				}
 
 				// =========================
